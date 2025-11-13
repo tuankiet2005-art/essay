@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title> Map - OpenStreetMap</title>
+
+    <link rel="stylesheet"
+          href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+        }
+        #map {
+            height: 100%;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+
+<div id="map"></div>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+{% include 'markers.html' %}
+
+
+<script>
+    
+    const lat = 11.05273;
+    const lng = 106.666281;
+    const zoom = 16;
+    const tile_url = "{{ tile_url }}";
+    const eiuImageUrl = "{{ url_for('static', filename='img/eiu.png') }}";
+
+    const map = L.map('map').setView([lat, lng], zoom);
+
+    L.tileLayer(tile_url, {
+        maxZoom: 19,
+        attribution: '&copy; OpenStreetMap contributors'
+    }).addTo(map);
+
+    // Marker tại EIU 
+    LeafletMarkers.addColoredMarker(map, lat, lng, 'red', {
+        title: 'EIU',
+        image: eiuImageUrl,
+        summary: '- EIU là trường đại học dân lập, thành lập năm 2010 và được hậu thuẫn bởi Becamex IDC tại TP. Thủ Dầu Một, Bình Dương. \n- Trường tập trung đào tạo nguồn nhân lực chất lượng cao trong các lĩnh vực Kỹ thuật, Công nghệ và Quản trị Kinh doanh. \n- Mục tiêu chính là gắn kết đào tạo với thực tiễn và nhu cầu phát triển bền vững của khu vực. \n- EIU nổi bật với cơ sở vật chất hiện đại và mạng lưới hợp tác với các khu công nghiệp. \nTrường có yêu cầu cao về tiếng Anh, thường là IELTS 6.0 cho sinh viên tốt nghiệp.\n',
+        url: 'https://eiu.edu.vn/'
+});
+
+    // LeafletMarkers.addCircleMarker(map, lat, lng+0.002, {color:'green', fillColor:'green'}, 'Circle marker');
+    // LeafletMarkers.addDotMarker(map, lat-0.001, lng-0.001, '#9b59b6', 18, 'Dot marker');
+</script>
+
+</body>
+</html>
